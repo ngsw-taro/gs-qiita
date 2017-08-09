@@ -1,9 +1,11 @@
 package com.example.gsqiita
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.ProgressBar
 import com.example.gsqiita.client.ArticleClient
 import com.github.salomonbrys.kodein.KodeinInjector
 import com.github.salomonbrys.kodein.instance
@@ -32,12 +34,17 @@ class MainActivity : RxAppCompatActivity() {
             ArticleActivity.intent(this, article).let { startActivity(it) }
         }
 
+        val progressBar = findViewById(R.id.progress_bar) as ProgressBar
         val queryEditText = findViewById(R.id.query_edit_text) as EditText
         val searchButton = findViewById(R.id.search_button) as Button
         searchButton.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
             articleClient.search(queryEditText.text.toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doAfterTerminate {
+                        progressBar.visibility = View.GONE
+                    }
                     .bindToLifecycle(this)
                     .subscribe({
                         queryEditText.text.clear()
