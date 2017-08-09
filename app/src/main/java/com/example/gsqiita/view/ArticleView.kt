@@ -1,12 +1,12 @@
 package com.example.gsqiita.view
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.example.gsqiita.R
 import com.example.gsqiita.bindView
 import com.example.gsqiita.model.Article
@@ -32,7 +32,8 @@ class ArticleView : RelativeLayout {
         titleTextView.text = article.title
         userNameTextView.text = article.user.name
 
-        // TODO プロフィール画像をセットする
-        profileImageView.setBackgroundColor(Color.RED)
+        Glide.with(context)
+                .load(article.user.profileImageUrl)
+                .into(profileImageView)
     }
 }
