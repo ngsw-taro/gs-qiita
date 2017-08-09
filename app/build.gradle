@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
@@ -17,6 +18,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -44,6 +48,8 @@ dependencies {
     def kodeinVersion = '4.1.0'
     compile "com.github.salomonbrys.kodein:kodein:$kodeinVersion"
     compile "com.github.salomonbrys.kodein:kodein-android:$kodeinVersion"
+
+    kapt 'com.android.databinding:compiler:2.3.3'
 }
 repositories {
     mavenCentral()

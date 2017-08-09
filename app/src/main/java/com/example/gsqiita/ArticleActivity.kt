@@ -2,11 +2,11 @@ package com.example.gsqiita
 
 import android.content.Context
 import android.content.Intent
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.webkit.WebView
+import com.example.gsqiita.databinding.ActivityArticleBinding
 import com.example.gsqiita.model.Article
-import com.example.gsqiita.view.ArticleView
 
 class ArticleActivity : AppCompatActivity() {
 
@@ -19,15 +19,12 @@ class ArticleActivity : AppCompatActivity() {
                         .putExtra(ARTICLE_EXTRA, article)
     }
 
+    val binding: ActivityArticleBinding by lazy {
+        DataBindingUtil.setContentView<ActivityArticleBinding>(this, R.layout.activity_article)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_article)
-
-        val articleView = findViewById(R.id.article_view) as ArticleView
-        val webView = findViewById(R.id.web_view) as WebView
-
-        val article: Article = intent.getParcelableExtra(ARTICLE_EXTRA)
-        articleView.setArticle(article)
-        webView.loadUrl(article.url)
+        binding.article = intent.getParcelableExtra(ARTICLE_EXTRA)
     }
 }
